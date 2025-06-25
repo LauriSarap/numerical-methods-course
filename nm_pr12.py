@@ -1,14 +1,25 @@
 import math
+import numpy as np
 
 x = 1.5
 k = 8
 delta = 0.5 * 10**(-k)
+epsilon = np.finfo(float).eps
 
 def f(x, k=k):
     return round(math.exp(2*x), k)
 
-def dfdx(x):
+def f_prime(x):
     return 2*math.exp(2*x)
+
+def f_double_prime(x):
+    return 4*math.exp(2*x)
+
+def f_triple_prime(x):
+    return 8*math.exp(2*x)
+
+def f_fifth_prime(x):
+    return 32*math.exp(2*x)
 
 def valem_1(x, h):
     return (f(x+h)-f(x)) / h
@@ -20,17 +31,20 @@ def valem_3(x, h):
     return (f(x-2*h) - 8*f(x-h) + 8*f(x+h) - f(x+2*h)) / (12*h)
 
 def h_optimaalne_valem_1(x):
-    return math.sqrt(2 * delta / abs(4 * math.exp(2*x)))
+    f_double_prime_estimate = abs(f_double_prime(x + 0.1))
+    return 2 * math.sqrt(delta / f_double_prime_estimate)
 
 def h_optimaalne_valem_2(x):
-    return (3 * delta / abs(8 * math.exp(2*x))) ** (1/3)
+    f_triple_prime_estimate = abs(f_triple_prime(x + 0.1))
+    return (3 * delta / f_triple_prime_estimate)**(1/3)
 
 def h_optimaalne_valem_3(x):
-    return (15 * delta / (2 * abs(32 * math.exp(2*x)))) ** (1/5)
+    f_fifth_prime_estimate = abs(f_fifth_prime(x + 2 * 0.1))
+    return (45 * delta / (4 * f_fifth_prime_estimate))**(1/5)
 
 valemid = [valem_1, valem_2, valem_3]
 h_opt_valemid = [h_optimaalne_valem_1, h_optimaalne_valem_2, h_optimaalne_valem_3]
-oige = dfdx(x)
+oige = f_prime(x)
 
 for j in range(0, 3):
 
