@@ -1,4 +1,6 @@
-def ristkylik(a: float, b: float, f: callable, n: int):
+import typing
+
+def ristkylik(a: float, b: float, f: typing.Callable, n: int):
     h = (b-a)/n
     S = 0
     for i in range(n):
@@ -6,7 +8,7 @@ def ristkylik(a: float, b: float, f: callable, n: int):
         S += fi
     return S*h
 
-def trapets(a: float, b: float, f: callable, n: int):
+def trapets(a: float, b: float, f: typing.Callable, n: int):
     h = (b-a)/n
     S = f(a) + f(b)
     for i in range(1, n):
@@ -14,7 +16,7 @@ def trapets(a: float, b: float, f: callable, n: int):
         S += 2*fi
     return h/2 * S
 
-def simpson(a: float, b: float, f: callable, n: int):
+def simpson(a: float, b: float, f: typing.Callable, n: int):
     h = (b-a)/n
     S = f(a) + f(b)
     for i in range(1, n):
